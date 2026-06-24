@@ -40,7 +40,7 @@ export class AuthService {
       decoded = this.jwtService.verify(refreshToken, {
         secret: process.env.JWT_REFRESH_SECRET || 'default-refresh-secret',
       });
-    } catch (e) {
+    } catch (_e) {
       throw new UnauthorizedException('Invalid or expired refresh token');
     }
 
@@ -83,9 +83,9 @@ export class AuthService {
       const tokens = await this.generateTokens(user);
       await this.updateRefreshTokenHash(user.id, tokens.refreshToken);
       return tokens;
-    } catch (e) {
-      if (e instanceof UnauthorizedException) {
-        throw e;
+    } catch (_e) {
+      if (_e instanceof UnauthorizedException) {
+        throw _e;
       }
       throw new UnauthorizedException('Invalid or expired refresh token');
     }
